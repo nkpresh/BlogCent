@@ -1,0 +1,92 @@
+﻿@model CreatViewModel
+
+@{
+    ViewBag.Title = "Creat Post";
+}
+
+<section>
+    <div class="breadcrumb">
+        <small>New Post</small>
+        <h1>Creat</h1>
+    </div>
+</section>
+<div id="body-content">
+    <div class="container">
+        <div class="row">
+            <form enctype="multipart/form-data" asp-controller="home" asp-action="Creat" method="post">
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="Title">Headline</label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Title" class="form-control" placeholder="Headline" />
+                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="WriteUp" class="col-3">Article</label>
+                    </div>
+                    <div class="col-6">
+                        <textarea asp-for="WriteUp" class="form-control" placeholder="..."></textarea>
+                    </div>
+                    <span asp-validation-for="WriteUp" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label asp-for="category" class="col-sm-2 col-form-label">Category</label>
+                    </div>
+                    <div class="col-lg-10">
+                        <select asp-for="category" class="custom-select mr-sm-2"
+                                asp-items="Html.GetEnumSelectList<Category>()">
+                            <option value="">Please Select</option>
+                        </select>
+                    </div>
+                    <span asp-validation-for="category" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <label asp-for="Photo" class="col-sm-2 col-form-label">Photo</label>
+                    <div class="col-sm-10">
+                        <div class="custom-file">
+                            <input asp-for="Photo" class="form-control custom-file-input" multiple />
+                            <label class="custom-file-label">Choose File...</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-checkbox">
+                        <label asp-for="Visible">
+                            <input asp-for="Visible" class="form-control" />
+                            @Html.DisplayNameFor(m => m.Visible)
+                        </label>
+                    </div>
+                </div>
+
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary">
+                            Create
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}
