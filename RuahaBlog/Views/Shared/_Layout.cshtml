@@ -1,0 +1,199 @@
+﻿@inject SignInManager<CustomisedUser> signInManager;
+@inject CustomisedUser currentUser
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <environment include="Development">
+        <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+              integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+              crossorigin="anonymous"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only"
+              asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              asp-suppress-fallback-integrity="true">
+        <script src="~/lib/jquery/jquery.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.js"></script>
+    </environment>
+    <link href="~/css/site.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="~/favicon/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" href="~/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/favicon/apple-touch-icon-114x114.png" />
+
+    <link rel="stylesheet" media="screen" href="~/css/base.css" />
+    <link rel="stylesheet" class="alt" href="~/css/theme/default.css">
+
+
+    <script src="~/js/modernizr-2.6.2.min.js"></script>
+
+    <!-- JQuery Plugins-->
+    <script type="text/javascript" src="~/js/jquery-min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="~/js/menuzord.js"></script>
+    <script type="text/javascript" src="~/js/owl.carousel.min.js"></script>
+    <script type='text/javascript' src="~/js/jflickrfeed.min.js"></script>
+    <script type='text/javascript' src="~/js/jquery.fancybox.js"></script>
+    <script type='text/javascript' src="~/js/jquery.validate.min.js"></script>
+    <script type='text/javascript' src="~/twitter/jquery.tweet.js"></script>
+
+    <!-- JQuery Map Plugin -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="~/js/jquery.gmap.min.js"></script>
+    <script type='text/javascript' src="~/js/site-custom.js"></script>
+    <script>
+        var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+        (function (d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.src = '../../../www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        }(document, 'script'));
+    </script>
+</head>
+<body class="wide mr-lg-auto">
+    <!-- xxx Header Start xxx -->
+    @{ 
+        currentUser = await signInManager.UserManager.GetUserAsync(User);
+    }
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="social-icons">
+                            <ul>
+                                <li><a href="#" data-toggle="tooltip" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" title="" data-original-title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
+                                <li><a href="#" data-toggle="tooltip" title="" data-original-title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="nav-wrap">
+            <div id="menuzord" class="menuzord red pull-left">
+                <a href="javascript:void(0)" style="padding-inline-start:20px" class="menuzord-brand"><img src="~/images/blogCentLogo.png" alt="BlogCent Logo"></a>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    if (currentUser.TypeOfUser == UserType.AdminUser)
+                    {
+                        <ul class="menuzord-menu">
+                            <li class="active">
+                                <a asp-controller="home" asp-action="index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="home" asp-action="index">PROFILE</a>
+                                <ul class="dropdown">
+                                    <li>
+                                        <form method="post" asp-controller="Account" asp-action="Logout">
+                                            <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">Logout @User.Identity.Name</button>
+                                        </form>
+                                    </li>
+                                    <li><a asp-controller="Home" asp-action="Creat">CREATE POST</a></li>
+                                    <li><a asp-action="about" asp-controller="home">Contact Us</a></li>
+                                </ul>
+                            </li>
+                            <li><a asp-controller="Home" asp-action="Creat">CREATE POST</a></li>
+                            <li><a asp-action="about" asp-controller="home">Contact Us</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="menuzord-menu">
+                            <li class="active">
+                                <a asp-controller="home" asp-action="index">Home</a>
+                            </li>
+                            <li>
+                                <a asp-controller="home" asp-action="index">PROFILE</a>
+                                <ul class="dropdown">
+                                    <li>
+                                        <form method="post" asp-controller="Account" asp-action="Logout">
+                                            <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">Logout @User.Identity.Name</button>
+                                        </form>
+                                    </li>
+                                    <li><a asp-action="about" asp-controller="home">Contact Us</a></li>
+                                </ul>
+                            </li>
+                            <li><a asp-action="about" asp-controller="home">Contact Us</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <ul class="menuzord-menu">
+                        <li>
+                            <a asp-controller="account" asp-action="register">Register</a>
+                        </li>
+                        <li>
+                            <a asp-controller="account" asp-action="login">Login</a>
+                        </li>
+                    </ul>
+                }
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
+    <!-- xxx Header End xxx -->
+ <div>
+            @RenderBody()
+        
+    </div>
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: true)
+    }
+    <!-- xxx Back To Top xxx -->
+    <div id="back-top">
+        <a class="img-circle" href="#top">
+            <i class="fa fa-angle-up"></i>
+        </a>
+    </div>
+
+    <!-- xxx End xxx -->
+    <!-- JQuery Plugins-->
+    <script type="text/javascript" src="~/js/jquery-min.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="~/js/menuzord.js"></script>
+    <script type="text/javascript" src="~/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/js/owl.carousel.min.js"></script>
+    <script type='text/javascript' src="~/js/jflickrfeed.min.js"></script>
+    <script type='text/javascript' src="~/js/jquery.fancybox.js"></script>
+    <script type='text/javascript' src="~/js/jquery.validate.min.js"></script>
+    <script type='text/javascript' src="~/twitter/jquery.tweet.js"></script>
+
+    <!-- JQuery Map Plugin -->
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="~/js/jquery.gmap.min.js"></script>
+
+    <script type='text/javascript' src="~/js/site-custom.js"></script>
+
+    <script>
+        var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+        (function (d, t) {
+            var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+            g.src = '../../../www.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g, s)
+        }(document, 'script'));
+    </script>
+</body>
+
+<!-- Mirrored from mannatstudio.com/html/ruaha/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 05 Oct 2020 17:42:25 GMT -->
+
+</html>
